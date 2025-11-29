@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FiMenu, FiX, FiArrowRight } from "react-icons/fi";
+import Logo from "../Logo";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -15,10 +16,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-20">
           {/* ----------------logo----------- */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-lime-400 to-green-500 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">Z</span>
-            </div>
-            <span className="text-2xl font-bold text-gray-900">ZapShift</span>
+            <Logo></Logo>
           </Link>
 
           {/* big screen navigation----------------- */}
@@ -64,7 +62,7 @@ const Navbar = () => {
             </Link>
             <Link
               to="/be-a-rider"
-              className="btn btn-success bg-lime-400 hover:bg-lime-500 border-0 text-gray-900 font-semibold px-6 py-2.5 rounded-full flex items-center space-x-2"
+              className="btn  primary-bg hover:bg-lime-500 border-0 text-gray-900 font-semibold px-6 py-2.5 rounded-full flex items-center space-x-2"
             >
               <span>Be a rider</span>
               <div className="w-8 h-8 bg-gray-900 rounded-full flex items-center justify-center">
@@ -135,7 +133,7 @@ const Navbar = () => {
                 </Link>
                 <Link
                   to="/be-a-rider"
-                  className="btn btn-success bg-primary hover:bg-lime-500 border-0 text-gray-900 font-semibold px-6 py-2.5 rounded-full flex items-center justify-center space-x-2"
+                  className="btn  primary-bg hover:bg-lime-500 border-0 text-gray-900 font-semibold px-6 py-2.5 rounded-full flex items-center justify-center space-x-2"
                   onClick={toggleMenu}
                 >
                   <span>Be a rider</span>

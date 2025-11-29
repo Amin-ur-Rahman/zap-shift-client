@@ -20,3 +20,29 @@ body {
   background-color: #eaeced;
 }
 
+.primary-bg {
+  background-color: #caeb66;
+}
+.primary-text {
+  color: #caeb66;
+}
+
+.secondary-bg {
+  background-color: #33929d;
+}
+
+.secondary-text {
+  color: #33929d;
+}
+
+.base-text {
+  color: #606060;
+}
+
+.tertiary-bg {
+  background-color: #03373d;
+}
+.tertiary-text {
+  color: #03373d;
+}
+
