@@ -55,7 +55,7 @@ const Navbar = () => {
 
           <div className="hidden md:flex items-center space-x-4">
             <Link
-              to="/signin"
+              to="/login"
               className="px-6 py-2.5 text-gray-700 hover:text-gray-900 font-medium transition-colors"
             >
               Sign In
@@ -125,7 +125,7 @@ const Navbar = () => {
               </Link>
               <div className="pt-4 border-t border-gray-200 flex flex-col space-y-3">
                 <Link
-                  to="/signin"
+                  to="/login"
                   className="text-center px-6 py-2.5 text-gray-700 hover:text-gray-900 font-medium transition-colors"
                   onClick={toggleMenu}
                 >

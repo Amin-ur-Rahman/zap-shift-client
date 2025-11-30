@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { FiSearch } from "react-icons/fi";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -36,7 +36,7 @@ const Coverage = () => {
         onSubmit={handleSearch}
         className="flex items-center w-xl relative gap-4 bg-gray-200 rounded-full  shadow-sm max-w-4xl mx-auto"
       >
-        <FiSearch className="text-2xl ml-2 text-gray-600 flex-shrink-0" />
+        <FiSearch className="text-2xl ml-2 text-gray-600 shrink-0" />
 
         <input
           name="location"
@@ -47,7 +47,7 @@ const Coverage = () => {
 
         <button
           type="submit"
-          className="primary-bg absolute right-0 text-gray-800 font-semibold px-10 py-3 rounded-full hover:shadow-lg transition-all duration-300 hover:scale-105 flex-shrink-0"
+          className="primary-bg absolute right-0 text-gray-800 font-semibold px-10 py-3 rounded-full hover:shadow-lg transition-all duration-300 hover:scale-105 shrink-0"
         >
           Search
         </button>
