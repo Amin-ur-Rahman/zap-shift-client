@@ -1,8 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
-import { FiUser, FiMail, FiLock, FiImage } from "react-icons/fi";
+import {
+  FiUser,
+  FiMail,
+  FiLock,
+  FiImage,
+  FiEye,
+  FiEyeOff,
+} from "react-icons/fi";
 
 const Registration = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    console.log("information", data);
+  };
+
   return (
     <div className=" py-20  flex items-center justify-center bg-white   ">
       <div className="    p-8 md:p-12 w-full  ">
@@ -13,7 +33,7 @@ const Registration = () => {
           <p className="base-text">Join ZapShift Delivery today</p>
         </div>
 
-        <form className="space-y-5 lg:px-20 ">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 lg:px-20 ">
           <div className="relative">
             <label className="block text-sm font-semibold base-text mb-2">
               Full Name
@@ -21,6 +41,7 @@ const Registration = () => {
             <div className="relative">
               <FiUser className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
+                {...register("name")}
                 type="text"
                 placeholder="Enter your name"
                 className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-secondary-text focus:outline-none transition-all duration-300 hover:border-gray-300"
@@ -35,6 +56,7 @@ const Registration = () => {
             <div className="relative">
               <FiImage className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
+                {...register("photoURL")}
                 type="text"
                 placeholder="Enter photo URL"
                 className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-secondary-text focus:outline-none transition-all duration-300 hover:border-gray-300"
@@ -49,6 +71,7 @@ const Registration = () => {
             <div className="relative">
               <FiMail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
+                {...register("email")}
                 type="email"
                 placeholder="Enter your email"
                 className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-secondary-text focus:outline-none transition-all duration-300 hover:border-gray-300"
@@ -63,11 +86,38 @@ const Registration = () => {
             <div className="relative">
               <FiLock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
-                type="password"
+                {...register("password", {
+                  required: "Password is required!",
+                  minLength: {
+                    value: 6,
+                    message: "Must contain at least 6 characters",
+                  },
+                  pattern: {
+                    value:
+                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+                    message:
+                      "Must include uppercase, lowercase, number and special character",
+                  },
+                })}
+                type={showPassword ? "text" : "password"}
                 placeholder="Create a password"
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-secondary-text focus:outline-none transition-all duration-300 hover:border-gray-300"
+                className="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-secondary-text focus:outline-none transition-all duration-300 hover:border-gray-300"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors duration-200"
+              >
+                {showPassword ? (
+                  <FiEyeOff className="text-xl" />
+                ) : (
+                  <FiEye className="text-xl" />
+                )}
+              </button>
             </div>
+            {errors.password && (
+              <p className="text-red-500 italic">{errors.password.message}</p>
+            )}
           </div>
 
           <button
