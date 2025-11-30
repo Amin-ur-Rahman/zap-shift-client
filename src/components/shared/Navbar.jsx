@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiMenu, FiX, FiArrowRight } from "react-icons/fi";
 import Logo from "../Logo";
+import AuthContext from "../../authContext/AuthContext";
+import { signOut } from "firebase/auth";
+import auth from "../../../firebase.init";
 
 const Navbar = () => {
+  const { user, loading } = useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  if (loading) return null;
 
   return (
     <nav className="h-max w-full py-5 ">
@@ -54,12 +60,25 @@ const Navbar = () => {
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
-            <Link
-              to="/login"
-              className="px-6 py-2.5 text-gray-700 hover:text-gray-900 font-medium transition-colors"
-            >
-              Sign In
-            </Link>
+            {user ? (
+              <button
+                onClick={async () => {
+                  await signOut(auth);
+                  console.log("user logged out!");
+                }}
+                className="primary-bg, px-3 py-2 rounded-2xl"
+              >
+                {" "}
+                Signout
+              </button>
+            ) : (
+              <Link
+                to="/login"
+                className="px-6 py-2.5 text-gray-700 hover:text-gray-900 font-medium transition-colors"
+              >
+                Sign In
+              </Link>
+            )}
             <Link
               to="/be-a-rider"
               className="btn  primary-bg hover:bg-lime-500 border-0 text-gray-900 font-semibold px-6 py-2.5 rounded-full flex items-center space-x-2"
@@ -124,13 +143,26 @@ const Navbar = () => {
                 Be a Rider
               </Link>
               <div className="pt-4 border-t border-gray-200 flex flex-col space-y-3">
-                <Link
-                  to="/login"
-                  className="text-center px-6 py-2.5 text-gray-700 hover:text-gray-900 font-medium transition-colors"
-                  onClick={toggleMenu}
-                >
-                  Sign In
-                </Link>
+                {user ? (
+                  <button
+                    onClick={async () => {
+                      await signOut(auth);
+
+                      console.log("user logged out!");
+                    }}
+                    className="primary-bg, px-3 py-2 rounded-2xl"
+                  >
+                    {" "}
+                    Signout
+                  </button>
+                ) : (
+                  <Link
+                    to="/login"
+                    className="px-6 py-2.5 text-gray-700 hover:text-gray-900 font-medium transition-colors"
+                  >
+                    Sign In
+                  </Link>
+                )}
                 <Link
                   to="/be-a-rider"
                   className="btn  primary-bg hover:bg-lime-500 border-0 text-gray-900 font-semibold px-6 py-2.5 rounded-full flex items-center justify-center space-x-2"

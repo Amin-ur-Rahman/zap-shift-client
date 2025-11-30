@@ -7,7 +7,10 @@ const AuthLayout = () => {
   return (
     <div className="relative min-h-screen">
       <div className="absolute top-5 left-10">
-        <Logo></Logo>
+        <a href="/">
+          {" "}
+          <Logo></Logo>
+        </a>
       </div>
       <div className="flex justify-between items-center bg-lime-50">
         <section className="flex-1">

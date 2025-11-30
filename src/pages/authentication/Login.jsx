@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import {
@@ -9,18 +9,28 @@ import {
   FiEye,
   FiEyeOff,
 } from "react-icons/fi";
+import AuthContext from "../../authContext/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const { signInUser, googleLogin } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log("information", data);
+  const onSubmit = async (data) => {
+    try {
+      const res = await signInUser(data.email, data.password);
+      console.log(res);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -90,13 +100,30 @@ const Login = () => {
           </div>
 
           <button
+            disabled={isSubmitting}
             type="submit"
-            className="w-full primary-bg text-gray-800 font-semibold py-4 rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-[1.02] mt-6"
+            className={`w-full ${
+              isSubmitting ? "bg-lime-100" : "primary-bg"
+            } text-gray-800 font-semibold py-4 rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-[1.02] mt-6`}
           >
-            Login
+            {isSubmitting ? "Loggin in..." : "Login"}
           </button>
+          <p>
+            Don't have an account?{" "}
+            <a className="primary-text font-semibold" href="/register">
+              Register here
+            </a>
+          </p>
           <p className="text-lg font-semibold italic text-center">or</p>
           <button
+            onClick={async () => {
+              try {
+                const res = await googleLogin();
+                console.log("google sign in", res);
+              } catch (error) {
+                console.log("google signin error", error);
+              }
+            }}
             type="button"
             className="w-full bg-white border-2 border-gray-300 text-gray-700 font-semibold py-4 rounded-xl hover:shadow-lg hover:border-gray-400 transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-3"
           >

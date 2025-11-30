@@ -89,8 +89,8 @@ const Review = () => {
           modules={[EffectCoverflow, Pagination, Autoplay]}
           className="mySwiper"
         >
-          {reviews.map((review) => (
-            <SwiperSlide key={review.id}>
+          {reviews.map((review, index) => (
+            <SwiperSlide key={index}>
               <ReviewCard review={review} />
             </SwiperSlide>
           ))}
