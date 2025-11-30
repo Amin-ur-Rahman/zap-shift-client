@@ -11,6 +11,7 @@ import {
 } from "react-icons/fi";
 import AuthContext from "../../authContext/AuthContext";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Registration = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -34,9 +35,24 @@ const Registration = () => {
   // };
 
   const onSubmit = async (data) => {
+    const imageInfo = data.photo[0];
+    console.log(imageInfo, Array.isArray(imageInfo));
+
     try {
       const res = await createUser(data.email, data.password);
-      await handleUpdate(data.name, data.photoURL);
+      const formData = new FormData();
+      formData.append("image", imageInfo);
+      console.log(formData);
+      const image_api_url = `https://api.imgbb.com/1/upload?key=${
+        import.meta.env.VITE_imgbb_api_key
+      }`;
+
+      const response = await axios.post(image_api_url, formData);
+      // console.log(response.data.data.display_url);
+
+      const photoURL = response.data.data.display_url;
+
+      await handleUpdate(data.name, photoURL);
       navigate("/");
       console.log(res);
     } catch (error) {
@@ -72,17 +88,19 @@ const Registration = () => {
 
           <div className="relative">
             <label className="block text-sm font-semibold base-text mb-2">
-              Photo URL
+              Photo
             </label>
-            <div className="relative">
-              <FiImage className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input
-                {...register("photoURL")}
-                type="text"
-                placeholder="Enter photo URL"
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-secondary-text focus:outline-none transition-all duration-300 hover:border-gray-300"
-              />
-            </div>
+            <input
+              {...register("photo", {
+                required: "please choose a file",
+              })}
+              type="file"
+              placeholder="Enter photo URL"
+              className="file-input w-full   border-2 border-gray-200 rounded-xl focus:border-secondary-text focus:outline-none transition-all duration-300 hover:border-gray-300"
+            />
+            {errors.photo && (
+              <p className="text-red-500 italic">{errors.photo.message}</p>
+            )}
           </div>
 
           <div className="relative">
@@ -164,6 +182,7 @@ const Registration = () => {
           <button
             onClick={async () => {
               const res = await googleLogin();
+              navigate("/");
               console.log(res);
             }}
             type="button"

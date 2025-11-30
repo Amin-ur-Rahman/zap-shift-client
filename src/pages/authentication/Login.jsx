@@ -120,6 +120,7 @@ const Login = () => {
               try {
                 const res = await googleLogin();
                 console.log("google sign in", res);
+                navigate("/");
               } catch (error) {
                 console.log("google signin error", error);
               }
