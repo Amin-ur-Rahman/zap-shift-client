@@ -9,13 +9,14 @@ import {
   FiEye,
   FiEyeOff,
 } from "react-icons/fi";
-import AuthContext from "../../authContext/AuthContext";
-import { useNavigate } from "react-router-dom";
+import AuthContext from "../../contexts/authContext/AuthContext";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { signInUser, googleLogin } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const {
     register,
@@ -27,7 +28,7 @@ const Login = () => {
     try {
       const res = await signInUser(data.email, data.password);
       console.log(res);
-      navigate("/");
+      navigate(`${location.state || "/"}`);
     } catch (error) {
       console.log(error);
     }

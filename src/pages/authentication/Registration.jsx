@@ -9,7 +9,7 @@ import {
   FiEye,
   FiEyeOff,
 } from "react-icons/fi";
-import AuthContext from "../../authContext/AuthContext";
+import AuthContext from "../../contexts/authContext/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 

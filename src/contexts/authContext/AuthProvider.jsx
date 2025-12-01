@@ -8,7 +8,7 @@ import {
   signInWithPopup,
   updateProfile,
 } from "firebase/auth";
-import auth from "../../firebase.init";
+import auth from "../../../firebase.init";
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -28,7 +28,7 @@ const AuthProvider = ({ children }) => {
     return () => {
       cleanUp();
     };
-  }, []);
+  }, [user]);
 
   //   createAccount----------
   const createUser = async (email, password) => {

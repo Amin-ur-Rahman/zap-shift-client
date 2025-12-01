@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiMenu, FiX, FiArrowRight } from "react-icons/fi";
 import Logo from "../Logo";
-import AuthContext from "../../authContext/AuthContext";
+import AuthContext from "../../contexts/authContext/AuthContext";
 import { signOut } from "firebase/auth";
 import auth from "../../../firebase.init";
 
@@ -57,6 +57,8 @@ const Navbar = () => {
             >
               Be a Rider
             </Link>
+            {user && <Link to="/send-parcel">Send Parcel</Link>}
+            {user && <Link to="/dashboard">Dashboard</Link>}
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
