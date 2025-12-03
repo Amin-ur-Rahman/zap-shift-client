@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom"; // remove if you're using Next.js
 import { FiCheckCircle } from "react-icons/fi";
 import useAxiosInstance from "../../contexts/useAxiosInstance";
 
 const PaymentSuccess = () => {
   const [params] = useSearchParams();
+  const [paymentInfo, setPaymentInfo] = useState({});
   const session_id = params.get("session_id");
   const axiosInstance = useAxiosInstance();
   console.log(session_id);
@@ -13,7 +14,13 @@ const PaymentSuccess = () => {
     if (session_id) {
       axiosInstance
         .patch(`/on-payment-success?session_id=${session_id}`)
-        .then((res) => console.log(res.data));
+        .then((res) => {
+          console.log(res.data);
+          setPaymentInfo({
+            transactionId: res.data.transactionId,
+            trackingId: res.data.trackingId,
+          });
+        });
     }
   }, [axiosInstance, session_id]);
 
@@ -30,6 +37,17 @@ const PaymentSuccess = () => {
           Your payment has been processed successfully. Thank you for using our
           service.
         </p>
+
+        <div className="my-5">
+          <p className="font-semibold">
+            Your transaction ID:
+            <small> {paymentInfo.transactionId}</small>
+          </p>
+          <p className="font-semibold">
+            Your tracking ID:
+            <small>{paymentInfo.transactionId}</small>
+          </p>
+        </div>
 
         <Link
           to="/dashboard"

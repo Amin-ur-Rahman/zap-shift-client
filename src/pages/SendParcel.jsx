@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAxiosInstance from "../contexts/useAxiosInstance";
 import AuthContext from "../contexts/authContext/AuthContext";
@@ -9,7 +9,8 @@ const SendParcel = () => {
   //   const [parcelType, setParcelType] = useState("document");
   const { register, handleSubmit, control, reset } = useForm();
   const { user } = useContext(AuthContext);
-  if (user) console.log(user);
+  // if (user) console.log(user);
+  const navigate = useNavigate();
 
   const serviceCenters = useLoaderData();
 
@@ -21,7 +22,7 @@ const SendParcel = () => {
   const receiverRegion = useWatch({ control, name: "receiverRegion" });
   //   console.log(senderRegion);
 
-  console.log(regions);
+  // console.log(regions);
 
   const onSubmit = (data) => {
     console.log("Form Data:", data);
@@ -62,7 +63,7 @@ const SendParcel = () => {
 
       if (result.isConfirmed) {
         Swal.fire({
-          title: "Make payment now?",
+          title: "Parcel created! willing to pay now?",
           text: `you will be charged ${price} taka`,
 
           icon: "question",
@@ -72,15 +73,7 @@ const SendParcel = () => {
           confirmButtonText: "Proceed",
         }).then((result) => {
           console.log("payment confirmation", result);
-
           if (result.isConfirmed) {
-            axiosInstance
-              .post("/parcels", { ...data, cost: price, paymentStatus: "paid" })
-              .then((res) => {
-                console.log(res.data);
-                reset();
-              });
-          } else {
             axiosInstance
               .post("/parcels", {
                 ...data,
@@ -90,6 +83,16 @@ const SendParcel = () => {
               .then((res) => {
                 console.log(res.data);
                 reset();
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "Your work has been saved",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                setTimeout(() => {
+                  navigate("/dashboard/my-parcels");
+                }, 2000);
               });
           }
         });
