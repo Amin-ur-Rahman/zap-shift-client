@@ -1,8 +1,22 @@
-import React from "react";
-import { Link } from "react-router-dom"; // remove if you're using Next.js
+import React, { useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom"; // remove if you're using Next.js
 import { FiCheckCircle } from "react-icons/fi";
+import useAxiosInstance from "../../contexts/useAxiosInstance";
 
 const PaymentSuccess = () => {
+  const [params] = useSearchParams();
+  const session_id = params.get("session_id");
+  const axiosInstance = useAxiosInstance();
+  console.log(session_id);
+
+  useEffect(() => {
+    if (session_id) {
+      axiosInstance
+        .patch(`/on-payment-success?session_id=${session_id}`)
+        .then((res) => console.log(res.data));
+    }
+  }, [axiosInstance, session_id]);
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
       <div className="bg-white shadow-md rounded-lg p-8 text-center max-w-md w-full">

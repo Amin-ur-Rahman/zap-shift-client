@@ -33,7 +33,7 @@ const MyParcels = () => {
       paymentInfo
     );
     console.log(res.data);
-    window.location.href = res.data.url;
+    window.location.assign(res.data.url);
   };
 
   const handleDelete = async (id) => {
@@ -90,7 +90,7 @@ const MyParcels = () => {
           <tbody>
             {/* row 1 */}
             {parcels.map((p, i) => (
-              <tr>
+              <tr key={i}>
                 <th>{i + 1}</th>
                 <td>{p.parcelName}</td>
                 <td>{p.parcelType}</td>

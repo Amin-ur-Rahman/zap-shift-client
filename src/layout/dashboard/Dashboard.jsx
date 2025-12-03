@@ -33,7 +33,7 @@ const Dashboard = () => {
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         {/* Navbar */}
-        <nav className="navbar w-full bg-base-300 border-b-2 border-gray-300 rounded-2xl mb-10 ">
+        <nav className="navbar   mx-auto   border-t-2 bg-base-300 border-b-2 border-gray-300   mb-10 ">
           <label
             onClick={handleSideClick}
             htmlFor="my-drawer-4"
