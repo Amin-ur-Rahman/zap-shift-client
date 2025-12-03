@@ -58,17 +58,41 @@ const SendParcel = () => {
       cancelButtonColor: "#d33",
       confirmButtonText: "Proceed",
     }).then((result) => {
-      if (result.isConfirmed) {
-        axiosInstance.post("/parcels", data).then((res) => {
-          console.log(res.data);
-          reset();
-        });
+      console.log(result);
 
-        // Swal.fire({
-        //   title: "Deleted!",
-        //   text: "Your file has been deleted.",
-        //   icon: "success",
-        // });
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Make payment now?",
+          text: `you will be charged ${price} taka`,
+
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonColor: "#caeb66",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Proceed",
+        }).then((result) => {
+          console.log("payment confirmation", result);
+
+          if (result.isConfirmed) {
+            axiosInstance
+              .post("/parcels", { ...data, cost: price, paymentStatus: "paid" })
+              .then((res) => {
+                console.log(res.data);
+                reset();
+              });
+          } else {
+            axiosInstance
+              .post("/parcels", {
+                ...data,
+                cost: price,
+                paymentStatus: "unpaid",
+              })
+              .then((res) => {
+                console.log(res.data);
+                reset();
+              });
+          }
+        });
       }
     });
   };

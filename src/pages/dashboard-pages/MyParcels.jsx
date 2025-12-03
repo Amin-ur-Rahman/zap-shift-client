@@ -21,7 +21,24 @@ const MyParcels = () => {
     },
   });
 
+  const handlePayment = async (p) => {
+    const paymentInfo = {
+      cost: p.cost,
+      senderEmail: p.senderEmail,
+      _id: p._id,
+      parcelName: p.parcelName,
+    };
+    const res = await axiosInstance.post(
+      "/create-checkout-session",
+      paymentInfo
+    );
+    console.log(res.data);
+    window.location.href = res.data.url;
+  };
+
   const handleDelete = async (id) => {
+    console.log(id);
+
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -30,28 +47,32 @@ const MyParcels = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const res = await axiosInstance.delete(`/parcels/${id}`);
-        console.log(res.data);
+    })
+      .then(async (result) => {
+        if (result.isConfirmed) {
+          const res = await axiosInstance.delete(`/parcels/${id}`);
+          console.log(res.data);
 
-        if (res.data.acknowledged) {
-          Swal.fire({
-            title: "Deleted!",
-            text: "Your file has been deleted.",
-            icon: "success",
-          });
-          refetch();
-        } else {
-          console.log(res.data.message);
+          if (res.data.deletedCount > 0) {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+            });
+            refetch();
+          } else {
+            throw new Error("404 error! request failed");
+          }
         }
-      }
-    });
+      })
+      .catch((error) => console.log(error));
   };
 
   console.log(parcels);
 
-  return (
+  return parcels.length <= 0 ? (
+    <div>no parcels on process!</div>
+  ) : (
     <div>
       <h1>my parcels here:</h1>
       <div className="overflow-x-auto">
@@ -62,6 +83,7 @@ const MyParcels = () => {
               <th></th>
               <th>Name</th>
               <th>parcel type</th>
+              <th>Payment Status</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -72,6 +94,20 @@ const MyParcels = () => {
                 <th>{i + 1}</th>
                 <td>{p.parcelName}</td>
                 <td>{p.parcelType}</td>
+                <td>
+                  {p.paymentStatus === "paid" ? (
+                    <button className="disabled text-green-400 font-semibold text-lg">
+                      Paid
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => handlePayment(p)}
+                      className="primary-bg font-semibold px-3 py-1 rounded-xl"
+                    >
+                      Pay
+                    </button>
+                  )}
+                </td>
                 <td className="flex   gap-3 items-center justify-start">
                   <button
                     title="view details"
