@@ -9,6 +9,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import auth from "../../../firebase.init";
+import axiosInstance from "../AxiosInstance";
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -42,6 +43,17 @@ const AuthProvider = ({ children }) => {
 
   const googleLogin = async () => {
     const res = await signInWithPopup(auth, provider);
+
+    // console.log(res);
+    const googleUser = res.user;
+    const userData = {
+      userName: googleUser.displayName,
+      userEmail: googleUser.email,
+      photoUrl: googleUser.photoURL,
+    };
+    const postResult = await axiosInstance.post("/users", userData);
+    console.log(postResult);
+
     return res;
   };
 

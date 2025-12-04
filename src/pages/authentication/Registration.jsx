@@ -12,11 +12,13 @@ import {
 import AuthContext from "../../contexts/authContext/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import useAxiosInstance from "../../contexts/useAxiosInstance";
 
 const Registration = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { createUser, googleLogin, handleUpdate } = useContext(AuthContext);
   const navigate = useNavigate();
+  const axiosInstance = useAxiosInstance();
 
   const {
     register,
@@ -53,6 +55,13 @@ const Registration = () => {
       const photoURL = response.data.data.display_url;
 
       await handleUpdate(data.name, photoURL);
+      const userData = {
+        userName: data.name,
+        userEmail: data.email,
+        photoUrl: photoURL,
+      };
+      axiosInstance.post("/users", userData);
+
       navigate("/");
       console.log(res);
     } catch (error) {

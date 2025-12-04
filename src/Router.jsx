@@ -11,6 +11,9 @@ import Dashboard from "./layout/dashboard/Dashboard";
 import MyParcels from "./pages/dashboard-pages/MyParcels";
 import PaymentSuccess from "./pages/dashboard-pages/PaymentSuccess";
 import PaymentCancelled from "./pages/dashboard-pages/PaymentCancelled";
+import PaymentHistory from "./pages/dashboard-pages/PaymentHistory";
+import BeARider from "./pages/BeARider";
+import AproveRider from "./pages/dashboard-pages/AproveRider";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +35,15 @@ const router = createBrowserRouter([
           <PrivateRoute>
             {" "}
             <SendParcel></SendParcel>
+          </PrivateRoute>
+        ),
+        loader: () => fetch("/warehouses.json"),
+      },
+      {
+        path: "be-a-rider",
+        element: (
+          <PrivateRoute>
+            <BeARider></BeARider>
           </PrivateRoute>
         ),
         loader: () => fetch("/warehouses.json"),
@@ -71,6 +83,18 @@ const router = createBrowserRouter([
       {
         path: "payment-cancelled",
         element: <PaymentCancelled></PaymentCancelled>,
+      },
+      {
+        path: "payment-history",
+        element: <PaymentHistory></PaymentHistory>,
+      },
+      {
+        path: "approve-rider",
+        element: (
+          <PrivateRoute>
+            <AproveRider></AproveRider>
+          </PrivateRoute>
+        ),
       },
     ],
   },

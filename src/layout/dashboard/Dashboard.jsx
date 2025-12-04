@@ -1,21 +1,22 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { FiHome, FiSettings } from "react-icons/fi";
 import { GoSidebarCollapse, GoSidebarExpand } from "react-icons/go";
 import { Link, Outlet } from "react-router-dom";
-import useAxiosInstance from "../../contexts/useAxiosInstance";
-import { useQuery } from "@tanstack/react-query";
+// import useAxiosInstance from "../../contexts/useAxiosInstance";
+// import { useQuery } from "@tanstack/react-query";
 import AuthContext from "../../contexts/authContext/AuthContext";
 import { FaDropbox } from "react-icons/fa";
+import { BiKey } from "react-icons/bi";
 
 const Dashboard = () => {
   const [expanded, setExpanded] = useState(false);
-  const { user } = useContext(AuthContext);
+  // const { user } = useContext(AuthContext);
 
   const handleSideClick = () => {
     setExpanded((prev) => !prev);
   };
 
-  const axiosInstance = useAxiosInstance();
+  // const axiosInstance = useAxiosInstance();
 
   //   const {
   //     data: parcels = [],
@@ -78,11 +79,22 @@ const Dashboard = () => {
             <Link
               to="/dashboard/my-parcels"
               className="is-drawer-close:tooltip is-drawer-close:tooltip-right hover:cursor-pointer hover:bg-base-100"
-              data-tip="Homepage"
+              data-tip="My parcels"
             >
               {/* Home icon */}
               <FaDropbox size={22}></FaDropbox>
               <span className="is-drawer-close:hidden">My Parcels</span>
+            </Link>
+            <Link
+              to="/dashboard/approve-rider"
+              className="is-drawer-close:tooltip is-drawer-close:tooltip-right hover:cursor-pointer hover:bg-base-100"
+              data-tip="Rider Approval page"
+            >
+              {/* Home icon */}
+              <BiKey size={22}></BiKey>
+              <span className="is-drawer-close:hidden">
+                Rider Approval page
+              </span>
             </Link>
 
             {/* List item */}

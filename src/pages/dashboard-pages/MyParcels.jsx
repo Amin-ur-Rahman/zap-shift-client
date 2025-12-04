@@ -70,6 +70,8 @@ const MyParcels = () => {
 
   console.log(parcels);
 
+  if (isLoading) return <div>loading...</div>;
+
   return parcels.length <= 0 ? (
     <div>no parcels on process!</div>
   ) : (

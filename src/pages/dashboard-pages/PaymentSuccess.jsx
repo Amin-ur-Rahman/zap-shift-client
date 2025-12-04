@@ -45,7 +45,7 @@ const PaymentSuccess = () => {
           </p>
           <p className="font-semibold">
             Your tracking ID:
-            <small>{paymentInfo.transactionId}</small>
+            <small>{paymentInfo.trackingId}</small>
           </p>
         </div>
 

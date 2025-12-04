@@ -86,7 +86,7 @@ const SendParcel = () => {
                 Swal.fire({
                   position: "top-end",
                   icon: "success",
-                  title: "Your work has been saved",
+                  title: "Your parcel has been created",
                   showConfirmButton: false,
                   timer: 1500,
                 });
@@ -247,7 +247,7 @@ const SendParcel = () => {
                   {...register("senderRegion")}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300 bg-white"
                 >
-                  <option value="" disabled={true}>
+                  <option value="" selected disabled={true}>
                     Select your Region
                   </option>
                   {regions.map((r, i) => (
@@ -266,7 +266,7 @@ const SendParcel = () => {
                   {...register("senderDistrict")}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300 bg-white"
                 >
-                  <option value="" disabled={true}>
+                  <option value="" selected disabled={true}>
                     Select your District
                   </option>
                   {districtsByRegions(senderRegion).map((d, i) => (
@@ -339,7 +339,7 @@ const SendParcel = () => {
                   {...register("receiverRegion")}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300 bg-white"
                 >
-                  <option value="" disabled={true}>
+                  <option value="" selected disabled={true}>
                     Select your Region
                   </option>
                   {regions.map((r, i) => (
@@ -358,7 +358,7 @@ const SendParcel = () => {
                   {...register("receiverDistrict")}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300 bg-white"
                 >
-                  <option value="" disabled={true}>
+                  <option selected value="" disabled={true}>
                     Receivers District
                   </option>
                   {districtsByRegions(receiverRegion).map((d, i) => (
