@@ -14,6 +14,12 @@ import PaymentCancelled from "./pages/dashboard-pages/PaymentCancelled";
 import PaymentHistory from "./pages/dashboard-pages/PaymentHistory";
 import BeARider from "./pages/BeARider";
 import AproveRider from "./pages/dashboard-pages/AproveRider";
+import ManageUsers from "./pages/dashboard-pages/ManageUsers";
+import Unauthorized from "./pages/Unauthorized";
+import AdminRoute from "./private/AdminRoute";
+import AssignRiders from "./pages/AssignRiders";
+import RiderRoute from "./private/RiderRoute";
+import AssignedDeliveries from "./pages/dashboard-pages/AssignedDeliveries";
 
 const router = createBrowserRouter([
   {
@@ -89,14 +95,42 @@ const router = createBrowserRouter([
         element: <PaymentHistory></PaymentHistory>,
       },
       {
-        path: "approve-rider",
+        path: "approve-riders",
         element: (
           <PrivateRoute>
             <AproveRider></AproveRider>
           </PrivateRoute>
         ),
       },
+      {
+        path: "manage-users",
+        element: (
+          <AdminRoute>
+            <ManageUsers></ManageUsers>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "assign-riders",
+        element: (
+          <AdminRoute>
+            <AssignRiders></AssignRiders>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "assigned-deliveries",
+        element: (
+          <RiderRoute>
+            <AssignedDeliveries></AssignedDeliveries>
+          </RiderRoute>
+        ),
+      },
     ],
+  },
+  {
+    path: "/unauthorized",
+    element: <Unauthorized></Unauthorized>,
   },
 ]);
 

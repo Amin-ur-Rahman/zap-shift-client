@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FiHome, FiSettings } from "react-icons/fi";
+import { FiHome, FiSettings, FiUsers } from "react-icons/fi";
 import { GoSidebarCollapse, GoSidebarExpand } from "react-icons/go";
 import { Link, Outlet } from "react-router-dom";
 // import useAxiosInstance from "../../contexts/useAxiosInstance";
@@ -7,6 +7,8 @@ import { Link, Outlet } from "react-router-dom";
 import AuthContext from "../../contexts/authContext/AuthContext";
 import { FaDropbox } from "react-icons/fa";
 import { BiKey } from "react-icons/bi";
+import useRole from "../../contexts/useRole";
+import { MdAddTask } from "react-icons/md";
 
 const Dashboard = () => {
   const [expanded, setExpanded] = useState(false);
@@ -15,6 +17,12 @@ const Dashboard = () => {
   const handleSideClick = () => {
     setExpanded((prev) => !prev);
   };
+
+  const { role, loading } = useRole();
+
+  if (loading && !role) return <div>loading....</div>;
+
+  console.log(role.role);
 
   // const axiosInstance = useAxiosInstance();
 
@@ -81,21 +89,65 @@ const Dashboard = () => {
               className="is-drawer-close:tooltip is-drawer-close:tooltip-right hover:cursor-pointer hover:bg-base-100"
               data-tip="My parcels"
             >
-              {/* Home icon */}
+              {/* My parcels */}
               <FaDropbox size={22}></FaDropbox>
               <span className="is-drawer-close:hidden">My Parcels</span>
             </Link>
-            <Link
-              to="/dashboard/approve-rider"
-              className="is-drawer-close:tooltip is-drawer-close:tooltip-right hover:cursor-pointer hover:bg-base-100"
-              data-tip="Rider Approval page"
-            >
-              {/* Home icon */}
-              <BiKey size={22}></BiKey>
-              <span className="is-drawer-close:hidden">
-                Rider Approval page
-              </span>
-            </Link>
+            {role.role === "admin" && (
+              <Link
+                to="/dashboard/approve-riders"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right hover:cursor-pointer hover:bg-base-100"
+                data-tip="Rider Approval page"
+              >
+                {/* Rider Approval page */}
+                <BiKey size={22}></BiKey>
+                <span className="is-drawer-close:hidden">
+                  Rider Approval page
+                </span>
+              </Link>
+            )}
+
+            {/* -----Assign Riders---------- */}
+            {role.role === "admin" && (
+              <Link
+                to="/dashboard/assign-riders"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right hover:cursor-pointer hover:bg-base-100"
+                data-tip="Assign Riders"
+              >
+                {/* Rider Approval page */}
+                <BiKey size={22}></BiKey>
+                <span className="is-drawer-close:hidden">Assign Riders</span>
+              </Link>
+            )}
+
+            {/* Manage users page */}
+            {role.role === "admin" && (
+              <Link
+                to="/dashboard/manage-users"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right hover:cursor-pointer hover:bg-base-100"
+                data-tip="Manage users"
+              >
+                {/* Rider Approval page */}
+                <FiUsers size={22}></FiUsers>
+                <span className="is-drawer-close:hidden">Manage users</span>
+              </Link>
+            )}
+
+            {/* Assigned Deliveries */}
+            {role.role === "rider" && (
+              <Link
+                to="/dashboard/assigned-deliveries"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right hover:cursor-pointer hover:bg-base-100"
+                data-tip="Assigned Deliveries"
+              >
+                {/* Rider Approval page */}
+                <MdAddTask size={22}></MdAddTask>
+
+                <span className="is-drawer-close:hidden">
+                  Assigned Deliveries
+                </span>
+              </Link>
+            )}
 
             {/* List item */}
             <Link>

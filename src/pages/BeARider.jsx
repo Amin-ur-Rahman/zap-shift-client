@@ -40,6 +40,15 @@ const BeARider = () => {
 
     const res = await axiosInstance.post("/riders", data);
     console.log(res.data);
+    if (res.data.insertedId) {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Your work has been saved",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
 
   return (

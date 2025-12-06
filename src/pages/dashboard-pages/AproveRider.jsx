@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import useAxiosInstance from "../../contexts/useAxiosInstance";
 import AuthContext from "../../contexts/authContext/AuthContext";
 import { useQuery } from "@tanstack/react-query";
@@ -26,15 +26,16 @@ const AproveRider = () => {
     const patchInfo = {
       status: status,
       email: rider.email,
+      workStatus: "available",
     };
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: "Approve rider request",
+      text: "this user will be marked as a rider",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "Proceed",
     }).then(async (result) => {
       if (result.isConfirmed) {
         const res = await axiosInstance.patch("/riders", patchInfo);
@@ -47,18 +48,15 @@ const AproveRider = () => {
   const handleApprove = (rider) => {
     console.log("Approve rider:", rider._id);
     updateRiderStatus(rider, "approved");
-    // Add your approve logic here
   };
 
   const handleReject = (rider) => {
     console.log("Reject rider:", rider._id);
     updateRiderStatus(rider, "declined");
-    // Add your reject logic here
   };
 
   const handleDelete = (riderId) => {
     console.log("Delete rider:", riderId);
-    // Add your delete logic here
   };
 
   if (isLoading) {
@@ -146,11 +144,11 @@ const AproveRider = () => {
                     <td className="px-4 py-4">
                       <span
                         className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
-                          rider.role === "pending"
+                          rider.status === "pending"
                             ? "bg-yellow-100 text-yellow-700"
-                            : rider.role === "approved"
+                            : rider.status === "approved"
                             ? "bg-green-100 text-green-700"
-                            : rider.role === "rejected"
+                            : rider.status === "rejected"
                             ? "bg-red-100 text-red-700"
                             : "bg-gray-100 text-gray-700"
                         }`}

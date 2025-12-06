@@ -16,7 +16,7 @@ const MyParcels = () => {
   } = useQuery({
     queryKey: ["my-parcels", user.email],
     queryFn: async () => {
-      const response = await axiosInstance.get("/parcels");
+      const response = await axiosInstance.get(`/parcels?email=${user.email}`);
       return response.data;
     },
   });
